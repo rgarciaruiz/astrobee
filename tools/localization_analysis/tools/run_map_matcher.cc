@@ -29,27 +29,22 @@ namespace lc = localization_common;
 
 int main(int argc, char** argv) {
   std::string output_bagfile;
+  std::string image_topic;
   std::string robot_config_file;
   std::string world;
   std::string config_path_prefix;
   po::options_description desc("Matches images to provided map and saves matches features and poses to a new bag file");
-  desc.add_options()("help,h", "produce help message")(
-    "bagfile", po::value<std::string>()->required(),
-    "Input bagfile containing image messages.")
-(
-    "map-file", po::value<std::string>()->required(), "Map file")
-(
-    "config-path,c", po::value<std::string>()->required(), "Path to config directory.")
-(
+  desc.add_options()("help,h", "produce help message")("bagfile", po::value<std::string>()->required(),
+                                                       "Input bagfile containing image messages.")(
+    "map-file", po::value<std::string>()->required(), "Map file")("config-path,c", po::value<std::string>()->required(),
+                                                                  "Path to config directory.")(
     "image-topic,i", po::value<std::string>(&image_topic)->default_value("mgt/img_sampler/nav_cam/image_record"),
-(
-    "robot-config-file,r", po::value<std::string>(&robot_config_file)->default_value("config/robots/bumble.config"),
-    "Robot config file")("world,w", po::value<std::string>(&world)->default_value("iss"), "World name")(
+    "Image topic")("robot-config-file,r",
+                   po::value<std::string>(&robot_config_file)->default_value("config/robots/bumble.config"),
+                   "Robot config file")("world,w", po::value<std::string>(&world)->default_value("iss"), "World name")(
     "output-bagfile,o", po::value<std::string>(&output_bagfile)->default_value(""),
-    "Output bagfile, defaults to input_bag + _map_matches.bag")
-    ("config-path-prefix,p",
-                            po::value<std::string>(&config_path_prefix)->default_value(""),
-                            "Config path prefix");
+    "Output bagfile, defaults to input_bag + _map_matches.bag")(
+    "config-path-prefix,p", po::value<std::string>(&config_path_prefix)->default_value(""), "Config path prefix");
   po::positional_options_description p;
   p.add("bagfile", 1);
   p.add("map-file", 1);
