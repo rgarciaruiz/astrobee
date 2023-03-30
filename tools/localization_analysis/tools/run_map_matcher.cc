@@ -88,5 +88,11 @@ int main(int argc, char** argv) {
   lc::SetEnvironmentConfigs(config_path, world, robot_config_file);
   config_reader::ConfigReader config;
   localization_analysis::MapMatcher map_matcher(input_bag, map_file, image_topic, output_bagfile, config_path_prefix);
+
   map_matcher.AddMapMatches();
+  std::cout << "Localized  " << map_matcher.match_count << " / " << map_matcher.image_count
+    << " images with mean of " << map_matcher.feature_count / map_matcher.match_count
+    << " using " << input_bag
+    << " on map " << map_file
+    << std::endl;
 }

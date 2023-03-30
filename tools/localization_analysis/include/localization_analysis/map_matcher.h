@@ -35,6 +35,9 @@ class MapMatcher {
   MapMatcher(const std::string& input_bag_name, const std::string& map_file, const std::string& image_topic,
              const std::string& output_bag_name, const std::string& config_prefix = "");
   void AddMapMatches();
+  int match_count;
+  int image_count;
+  int feature_count;
 
  private:
   bool GenerateVLFeatures(const sensor_msgs::ImageConstPtr& image_msg, ff_msgs::VisualLandmarks& vl_features);

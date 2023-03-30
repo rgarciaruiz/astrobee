@@ -37,7 +37,10 @@ MapMatcher::MapMatcher(const std::string& input_bag_name, const std::string& map
       image_topic_(image_topic),
       map_(map_file, true),
       map_feature_matcher_(&map_),
-      config_prefix_(config_prefix) {
+      config_prefix_(config_prefix),
+      match_count(0),
+      image_count(0),
+      feature_count(0) {
   config_reader::ConfigReader config;
   config.AddFile("geometry.config");
   lc::LoadGraphLocalizerConfig(config, config_prefix);
@@ -68,11 +71,14 @@ void MapMatcher::AddMapMatches() {
   std::vector<std::string> topics;
   topics.push_back(std::string("/") + image_topic_);
   rosbag::View view(input_bag_, rosbag::TopicQuery(topics));
+  image_count = view.size();
   for (const rosbag::MessageInstance msg : view) {
     if (string_ends_with(msg.getTopic(), image_topic_)) {
       sensor_msgs::ImageConstPtr image_msg = msg.instantiate<sensor_msgs::Image>();
       ff_msgs::VisualLandmarks vl_msg;
       if (GenerateVLFeatures(image_msg, vl_msg)) {
+        match_count++;
+        feature_count += vl_msg.landmarks.size();
         const ros::Time timestamp = lc::RosTimeFromHeader(image_msg->header);
         output_bag_.write(std::string("/") + TOPIC_LOCALIZATION_ML_FEATURES, timestamp, vl_msg);
         if (graph_localizer::ValidVLMsg(vl_msg, sparse_mapping_min_num_landmarks_)) {
