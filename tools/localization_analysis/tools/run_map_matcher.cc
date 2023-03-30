@@ -90,9 +90,12 @@ int main(int argc, char** argv) {
   localization_analysis::MapMatcher map_matcher(input_bag, map_file, image_topic, output_bagfile, config_path_prefix);
 
   map_matcher.AddMapMatches();
-  std::cout << "Localized  " << map_matcher.match_count << " / " << map_matcher.image_count
-    << " images with mean of " << map_matcher.feature_count / map_matcher.match_count
-    << " using " << input_bag
-    << " on map " << map_file
-    << std::endl;
+  int mean = 0;
+  if (map_matcher.match_count != 0) {
+    mean = map_matcher.feature_count / map_matcher.match_count;
+  }
+  std::cout << "Localized "
+    << map_matcher.match_count << " / " << map_matcher.image_count
+    << " images with mean of " << mean << "features"
+    << " using " << input_bag  << " on map " << map_file << std::endl;
 }
