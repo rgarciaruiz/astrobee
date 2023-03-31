@@ -96,6 +96,6 @@ int main(int argc, char** argv) {
   }
   std::cout << "Localized "
     << map_matcher.match_count << " / " << map_matcher.image_count
-    << " images with mean of " << mean << "features"
+    << " images with mean of " << mean << " features"
     << " using " << input_bag  << " on map " << map_file << std::endl;
 }
