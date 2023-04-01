@@ -5,12 +5,12 @@
 """
 
 import sys
-
 import numpy as np
 import rospy
 from ff_msgs.msg import VisualLandmarks
 from tf.transformations import *
 import rosbag
+
 
 class Activity_DBGenerator:
     def __init__(self):
@@ -108,7 +108,7 @@ class Activity_DBGenerator:
 
         bag = rosbag.Bag(bag_name)
 
-        for topic, msg, t in bag.read_messages(topics=['/loc/ml/features']):
+        for topic, msg, t in bag.read_messages(topics=["/loc/ml/features"]):
             self.callback(msg)
 
         self.close_file()
@@ -149,7 +149,6 @@ if __name__ == "__main__":
             obj = Activity_DBGenerator()
             obj.open_file(output_filename, activity_name, map_name, activity_date)
             obj.read_from_bag(bag_name, output_filename)
-
 
         else:
             activity_date = sys.argv[1]
