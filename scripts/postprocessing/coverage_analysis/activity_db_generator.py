@@ -5,11 +5,12 @@
 """
 
 import sys
+
 import numpy as np
+import rosbag
 import rospy
 from ff_msgs.msg import VisualLandmarks
 from tf.transformations import *
-import rosbag
 
 
 class Activity_DBGenerator:
