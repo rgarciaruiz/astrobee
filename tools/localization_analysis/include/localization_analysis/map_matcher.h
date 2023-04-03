@@ -44,6 +44,7 @@ class MapMatcher {
 
   rosbag::Bag input_bag_;
   rosbag::Bag output_bag_;
+  rosbag::Bag nonloc_bag_;
   std::string image_topic_;
   sparse_mapping::SparseMap map_;
   localization_node::Localizer map_feature_matcher_;
