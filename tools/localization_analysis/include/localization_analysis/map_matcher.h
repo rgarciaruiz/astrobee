@@ -21,6 +21,7 @@
 
 #include <ff_msgs/VisualLandmarks.h>
 #include <localization_node/localization.h>
+#include <localization_common/averager.h>
 #include <sparse_mapping/sparse_map.h>
 
 #include <rosbag/view.h>
@@ -36,9 +37,7 @@ class MapMatcher {
              const std::string& output_bag_name, const std::string& config_prefix = "",
              const std::string& save_noloc_imgs = "");
   void AddMapMatches();
-  int match_count;
-  int image_count;
-  int feature_count;
+  void LogResults();
 
  private:
   bool GenerateVLFeatures(const sensor_msgs::ImageConstPtr& image_msg, ff_msgs::VisualLandmarks& vl_features);
@@ -51,7 +50,10 @@ class MapMatcher {
   localization_node::Localizer map_feature_matcher_;
   std::string config_prefix_;
   gtsam::Pose3 body_T_nav_cam_;
+  localization_common::Averager feature_averager_;
   int sparse_mapping_min_num_landmarks_;
+  int match_count_;
+  int image_count_;
 };
 }  // namespace localization_analysis
 
