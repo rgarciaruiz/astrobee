@@ -33,7 +33,8 @@ namespace localization_analysis {
 class MapMatcher {
  public:
   MapMatcher(const std::string& input_bag_name, const std::string& map_file, const std::string& image_topic,
-             const std::string& output_bag_name, const std::string& config_prefix = "");
+             const std::string& output_bag_name, const std::string& config_prefix = "",
+             const std::string& save_noloc_imgs = "");
   void AddMapMatches();
   int match_count;
   int image_count;
