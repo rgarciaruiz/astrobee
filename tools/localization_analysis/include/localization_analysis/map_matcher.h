@@ -33,7 +33,8 @@ namespace localization_analysis {
 class MapMatcher {
  public:
   MapMatcher(const std::string& input_bag_name, const std::string& map_file, const std::string& image_topic,
-             const std::string& output_bag_name, const std::string& config_prefix = "");
+             const std::string& output_bag_name, const std::string& config_prefix = "",
+             const std::string& save_noloc_imgs = "");
   void AddMapMatches();
   int match_count;
   int image_count;
@@ -44,6 +45,7 @@ class MapMatcher {
 
   rosbag::Bag input_bag_;
   rosbag::Bag output_bag_;
+  rosbag::Bag nonloc_bag_;
   std::string image_topic_;
   sparse_mapping::SparseMap map_;
   localization_node::Localizer map_feature_matcher_;

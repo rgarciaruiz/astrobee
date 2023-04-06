@@ -31,7 +31,8 @@ namespace localization_analysis {
 namespace lc = localization_common;
 namespace mc = msg_conversions;
 MapMatcher::MapMatcher(const std::string& input_bag_name, const std::string& map_file, const std::string& image_topic,
-                       const std::string& output_bag_name, const std::string& config_prefix)
+                       const std::string& output_bag_name, const std::string& config_prefix,
+                       const std::string& save_noloc_imgs)
     : input_bag_(input_bag_name, rosbag::bagmode::Read),
       output_bag_(output_bag_name, rosbag::bagmode::Write),
       image_topic_(image_topic),
@@ -40,7 +41,8 @@ MapMatcher::MapMatcher(const std::string& input_bag_name, const std::string& map
       config_prefix_(config_prefix),
       match_count(0),
       image_count(0),
-      feature_count(0) {
+      feature_count(0),
+      nonloc_bag_() {
   config_reader::ConfigReader config;
   config.AddFile("geometry.config");
   lc::LoadGraphLocalizerConfig(config, config_prefix);
@@ -49,6 +51,9 @@ MapMatcher::MapMatcher(const std::string& input_bag_name, const std::string& map
   }
   body_T_nav_cam_ = lc::LoadTransform(config, "nav_cam_transform");
   sparse_mapping_min_num_landmarks_ = mc::LoadInt(config, "loc_adder_min_num_matches");
+  if (!save_noloc_imgs.empty()) {
+    nonloc_bag_.open(save_noloc_imgs, rosbag::bagmode::Write);
+  }
 }
 
 // TODO(rsoussan): Use common code with graph_bag
@@ -88,6 +93,9 @@ void MapMatcher::AddMapMatches() {
             graph_localizer::PoseMsg(lc::EigenPose(sparse_mapping_global_T_body), lc::TimeFromHeader(vl_msg.header));
           output_bag_.write(std::string("/") + TOPIC_SPARSE_MAPPING_POSE, timestamp, pose_msg);
         }
+      } else if (nonloc_bag_.isOpen()) {
+        const ros::Time timestamp = lc::RosTimeFromHeader(image_msg->header);
+        nonloc_bag_.write(std::string("/") + image_topic_, timestamp, image_msg);
       }
     }
   }
