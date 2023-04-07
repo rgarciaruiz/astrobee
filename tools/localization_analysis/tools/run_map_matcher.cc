@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     "output-bagfile,o", po::value<std::string>(&output_bagfile)->default_value(""),
     "Output bagfile, defaults to input_bag + _map_matches.bag")(
     "config-path-prefix,p", po::value<std::string>(&config_path_prefix)->default_value(""), "Config path prefix")
-    ("save-noloc-imgs,s", po::value<std::string>(&save_noloc_imgs)->default_value(""),
+    ("save-noloc-imgs,s", po::value<std::string>(&save_noloc_imgs)->default_value("")->implicit_value(""),
      "Save non-localized images to a bag, defaults to input_bag + _nonloc_imgs.bag");
   po::positional_options_description p;
   p.add("bagfile", 1);
@@ -89,9 +89,9 @@ int main(int argc, char** argv) {
     output_bagfile = output_bag_path.string();
   }
 
-  if (!vm["save-noloc-imgs"].defaulted()) {
-    save_noloc_imgs = input_bag_path.parent_path().string() + "/" +
-      input_bag_path.stem().string() + "_nonloc_imgs.bag";
+  if (!vm["save-noloc-imgs"].defaulted() && save_noloc_imgs.empty()) {
+    save_noloc_imgs =
+      boost::filesystem::current_path().string() + "/" + input_bag_path.stem().string() + "_nonloc_imgs.bag";
   }
   lc::SetEnvironmentConfigs(config_path, world, robot_config_file);
   config_reader::ConfigReader config;
