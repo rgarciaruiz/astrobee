@@ -4,6 +4,7 @@ astrobee-comms
 astrobee-dev
 astrobee-config
 astrobee-comms
+astrobee-astrobatics-mpc
 files
 debhelper-build-stamp
 *.substvars
