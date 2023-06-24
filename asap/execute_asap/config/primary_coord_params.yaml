@@ -1,0 +1,18 @@
+# Parameters for the primary coordinator node.
+/asap/primary/reg_time: 20.0  # seconds to wait after regulation is complete before starting test
+
+# Regulation error thresholds
+/asap/primary/pos_reg_thresh: 0.05
+/asap/primary/vel_reg_thresh: 0.015
+/asap/primary/att_reg_thresh: 0.05
+/asap/primary/omega_reg_thresh: 0.05
+
+# Sample ASAP parameters (setpoints, in this case)
+/asap/primary/point_a_granite: [0.0, 0.6, -0.76, 0.0, 0.0, -0.7071068, 0.7071068]
+/asap/primary/point_a_iss: [10.8, -9.6, 4.8, 0.0, 0.0, -0.7071068, 0.7071068]
+
+/asap/primary/point_b_granite: [-0.4, -0.4, -0.76, 0.0, 0.0, 0.0, 1.0]
+/asap/primary/point_b_iss: [10.8, -7.75, 5.2, 0.0, 0.0, -0.7071068, 0.7071068]
+
+/asap/primary/point_c_granite: [0.4, -0.4, -0.76, 0.0, 0.0, 1.0, 0.0]
+/asap/primary/point_c_iss: [10.8, -7.75, 4.3, 0.0, 0.0, -0.7071068, 0.7071068]

@@ -1,0 +1,7 @@
+# Parameters for the secondary coordinator node.
+
+# Regulation error thresholds
+/asap/secondary/pos_reg_thresh: 0.05
+/asap/secondary/vel_reg_thresh: 0.015
+/asap/secondary/att_reg_thresh: 0.05
+/asap/secondary/omega_reg_thresh: 0.05
